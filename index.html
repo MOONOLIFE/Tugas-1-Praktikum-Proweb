@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Suit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>GAME SUIT</h1>
+        <p class="subtitle">Pilih game-mu:</p>
+
+        <div class="menu-section">
+            <button class="btn" onclick="pilihGame(1)">Batu Gunting Kertas</button>
+            <button class="btn" onclick="pilihGame(2)">Gajah Orang Semut</button>
+            <button class="btn" onclick="pilihGame(3)">Suit Jari</button>
+        </div>
+
+        <div class="result-card">
+            <div class="result-info"><b>Mode:</b> <span id="txt-mode">-</span></div>
+            <div class="result-info"><b>Kamu:</b> <span id="txt-user">-</span> | <b>Komputer:</b> <span id="txt-comp">-</span></div>
+            <div class="result-main"><span id="txt-hasil">-</span></div>
+        </div>
+    </div>
+
+    <script>
+        let currentModeText = '-';
+
+        function pilihGame(nomorGame) {
+            if (nomorGame === 1) {
+                currentModeText = 'Batu Gunting Kertas';
+                suitBatuGuntingKertas();
+            } else if (nomorGame === 2) {
+                currentModeText = 'Gajah Orang Semut';
+                suitGajahOrangSemut();
+            } else if (nomorGame === 3) {
+                currentModeText = 'Suit Jari';
+                suitJari();
+            }
+        }
+
+        function perbaruiCard(user, comp, hasil) {
+            document.getElementById('txt-mode').innerText = currentModeText;
+            document.getElementById('txt-user').innerText = user.toLowerCase();
+            document.getElementById('txt-comp').innerText = comp.toLowerCase();
+            document.getElementById('txt-hasil').innerText = hasil;
+        }
+
+        function suitBatuGuntingKertas() {
+            let inputUser = prompt("GAME BATU GUNTING KERTAS\nMasukkan pilihan kamu (Batu / Gunting / Kertas):");
+            if (inputUser === null) return;
+            
+            let userChoice = inputUser.trim().toLowerCase();
+            userChoice = userChoice.charAt(0).toUpperCase() + userChoice.slice(1);
+
+            if (userChoice !== 'Batu' && userChoice !== 'Gunting' && userChoice !== 'Kertas') {
+                alert("Input gak valid. Coba masukin teks yang bener.");
+                return;
+            }
+
+            const pilihanComp = ['Batu', 'Gunting', 'Kertas'];
+            let compChoice = pilihanComp[Math.floor(Math.random() * 3)];
+
+            let hasil = '';
+            if (userChoice === compChoice) {
+                hasil = 'Seri! Sama mulu nih.';
+            } else if (
+                (userChoice === 'Batu' && compChoice === 'Gunting') ||
+                (userChoice === 'Gunting' && compChoice === 'Kertas') ||
+                (userChoice === 'Kertas' && compChoice === 'Batu')
+            ) {
+                hasil = 'Kamu Menang! Tumben bisa menang.';
+            } else {
+                hasil = 'Kamu Kalah! Gini doang kalah, kocak dah.';
+            }
+
+            perbaruiCard(userChoice, compChoice, hasil);
+        }
+
+        function suitGajahOrangSemut() {
+            let inputUser = prompt("GAME GAJAH ORANG SEMUT\nMasukkan pilihan kamu (Gajah / Orang / Semut):");
+            if (inputUser === null) return;
+            
+            let userChoice = inputUser.trim().toLowerCase();
+            userChoice = userChoice.charAt(0).toUpperCase() + userChoice.slice(1);
+
+            if (userChoice !== 'Gajah' && userChoice !== 'Orang' && userChoice !== 'Semut') {
+                alert("Input gak valid. Coba masukin teks yang bener.");
+                return;
+            }
+
+            const pilihanComp = ['Gajah', 'Orang', 'Semut'];
+            let compChoice = pilihanComp[Math.floor(Math.random() * 3)];
+
+            let hasil = '';
+            if (userChoice === compChoice) {
+                hasil = 'Seri! Pilihan kita sama.';
+            } else if (
+                (userChoice === 'Gajah' && compChoice === 'Orang') ||
+                (userChoice === 'Orang' && compChoice === 'Semut') ||
+                (userChoice === 'Semut' && compChoice === 'Gajah')
+            ) {
+                hasil = 'Kamu Menang! Hoki doang ini mah.';
+            } else {
+                hasil = 'Kamu Kalah! Gak ada bedanya, kalah juga.';
+            }
+
+            perbaruiCard(userChoice, compChoice, hasil);
+        }
+
+        function suitJari() {
+            let inputUser = prompt("GAME SUIT ANGKA JARI\nMasukkan jumlah jari (Angka 1 sampai 5):");
+            if (inputUser === null) return;
+
+            let userChoice = parseInt(inputUser);
+            if (isNaN(userChoice) || userChoice < 1 || userChoice > 5) {
+                alert("Input salah. Harus berupa angka 1 sampai 5.");
+                return;
+            }
+
+            let compChoice = Math.floor(Math.random() * 5) + 1;
+
+            let hasil = '';
+            if (userChoice === compChoice) {
+                hasil = 'Seri! Jari kita sama.';
+            } else if (
+                (userChoice > compChoice && !(userChoice === 5 && compChoice === 1)) || 
+                (userChoice === 1 && compChoice === 5)
+            ) {
+                hasil = 'Kamu Menang! Lumayan lah ya.';
+            } else {
+                hasil = 'Kamu Kalah! cupu.';
+            }
+
+            perbaruiCard(userChoice + ' Jari', compChoice + ' Jari', hasil);
+        }
+    </script>
+</body>
+</html>
